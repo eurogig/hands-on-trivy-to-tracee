@@ -67,12 +67,6 @@ Kube-hunter (remote)  (https://github.com/aquasecurity/kube-hunter)
 ```
 git clone https://github.com/aquasecurity/kube-hunter.git
 ```
-### Install/Download kubectl
-
-```
-curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
-chmod +x ./kubectl
-```
 
 #### We will run kube-hunter within a cluster in two different ways.  Active and Passive.
 #### A kubeconfig file has been provided to give access to the cluster.  Let's set that up now.
@@ -80,6 +74,14 @@ chmod +x ./kubectl
 set KUBECONFIG=~/hands-on-trivy-to-tracee/DevopsPGkconfig.yaml
 cd ./kube-hunter
 ```
+
+### Install/Download kubectl
+
+```
+curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+chmod +x ./kubectl
+```
+
 ##### CHANGE the job’s metadata: name: from “kube-hunter” to something unique to you “initials-birthyear-kube-hunter” to avoid collisions
 ```
 vim job.yaml
