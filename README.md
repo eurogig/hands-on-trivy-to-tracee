@@ -27,8 +27,7 @@ docker run -it --rm alpine sh
 
 ## NOTE: To use sudo you'll need your account password assigned by DevOps Playground
 
-## Part 1
-### Trivy
+## Part 1 - Trivy (https://github.com/aquasecurity/trivy)
 <img src="https://github.com/aquasecurity/trivy/blob/master/imgs/logo.png" height="150">
 
 ### Installing Trivy
@@ -59,8 +58,8 @@ Using the tag 9.5 can mean trivy -s CRITICAL postgres:9.5.20 or 21 or 10 or...
 Ambiguous tags (latest being the worst) means you can get misleading results based on local caching of the image.
 
 
-## Part 2
-Kube-hunter (remote)  (https://github.com/aquasecurity/kube-hunter)
+## Part 2 Kube-hunter (remote) (https://github.com/aquasecurity/kube-hunter)
+
 <img src="https://github.com/aquasecurity/kube-hunter/blob/master/kube-hunter.png" height="150">
 
 ### Install kube-hunter by cloning the git repo
@@ -129,7 +128,8 @@ diff myresultsactive.txt myresultspassive.txt
 
 #### Check the differences between the two results
 
-## Part 3
+## Part 3 - Tracee (https://github.com/aquasecurity/tracee)
+
 ### Tracee and Intro to eBPF (BPF references http://www.brendangregg.com/ebpf.html)
 <img src="https://github.com/eurogig/hands-on-trivy-to-tracee/blob/master/temptraceelogo.png" height="150">
 
@@ -209,4 +209,4 @@ docker run -it --rm alpine sh
 ```
 ### Try running similar commands in the docker shell to what you ran in the linux shell earlier and also experiment with networking commands like ping
 
-## Observer the detailed tracing that appears in the first terminal!  There is a lot of detail.  Imagine what you could do with all that information programmatically to detect malicious behaviour built into containers from 3rd party providers or unvetted registries.  
+### Observe the detailed tracing that appears in the first terminal!  There is a lot of detail.  Imagine what you could do with all that information programmatically to detect malicious behaviour built into containers from 3rd party providers or unvetted registries.  
