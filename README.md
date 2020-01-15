@@ -70,7 +70,7 @@ git clone https://github.com/aquasecurity/kube-hunter.git
 #### We will run kube-hunter within a cluster in two different ways.  Active and Passive.
 #### A kubeconfig file has been provided to give access to the cluster.  Let's set that up now.
 ```
-set KUBECONFIG=~/hands-on-trivy-to-tracee/DevopsPGkconfig.yaml
+export KUBECONFIG=~/hands-on-trivy-to-tracee/DevopsPGkconfig.yaml
 cd ./kube-hunter
 ```
 
