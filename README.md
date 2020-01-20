@@ -101,7 +101,8 @@ cat job.yaml | sed 's/\["--pod"\]/\["--pod","--quick"\]/' | sed "s/name: kube-hu
 ```
 
 #### NOTE: the --quick argument limits the network interface scanning.   It can turn a 45 min scan into seconds. Better for demos but not for security.
-```./kubectl create -f ./job2.yaml
+```
+./kubectl create -f ./job2.yaml
 ./kubectl describe job “your-job-name”
 ./kubectl logs “pod name” > myresultspassive.txt
 
