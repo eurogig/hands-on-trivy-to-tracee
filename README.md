@@ -81,11 +81,11 @@ curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s http
 chmod +x ./kubectl
 ```
 
-##### CHANGE the job’s metadata: name: from “kube-hunter” to something unique to you “initials-birthyear-kube-hunter” to avoid collisions
+##### CHANGE the job’s metadata: name: from “kube-hunter” to something unique to you “$USER-kube-hunter” to avoid collisions
 ```
 vim job.yaml
 ```
-### In the job.yaml file make a few changes
+### Also in the job.yaml we will file make a few changes
 ```
 metadata:
   name: sg-1971-kube-hunter
@@ -94,8 +94,14 @@ metadata:
 # to
         args: ["--pod”,”--quick”]
 ```
+
+### You can do all this quickly via running a short command
+```
+cat job.yaml | sed 's/\["--pod"\]/\["--pod","--quick"\]/' | sed "s/name: kube-hunter/name: $USER-kubehunter/" > job2.yaml
+```
+
 #### NOTE: the --quick argument limits the network interface scanning.   It can turn a 45 min scan into seconds. Better for demos but not for security.
-```./kubectl create -f ./job.yaml
+```./kubectl create -f ./job2.yaml
 ./kubectl describe job “your-job-name”
 ./kubectl logs “pod name” > myresultspassive.txt
 
@@ -105,7 +111,7 @@ cat myresultspassive.txt
 ## Part 2b
 ### First delete the old job
 ```
-./kubectl delete -f ./job.yaml
+./kubectl delete -f ./job2.yaml
 ```
 ### In the job.yaml file we will make one more change
 ```
@@ -114,10 +120,15 @@ cat myresultspassive.txt
 # to
         args: ["--pod”,”--quick”, “--active”]
 ```
+### You can do all this quickly via running a short command
+```
+cat job.yaml | sed 's/\["--pod"\]/\["--pod","--quick","--active"\]/' | sed "s/name: kube-hunter/name: $USER-3-kubehunter/" > job3.yaml
+```
+
 #### NOTE: the --active argument extends the test to use finding to test for specific exploits. Better for security. Most effective run within the cluster.
 ### Let's try it again
 ```
-./kubectl create -f ./job.yaml
+./kubectl create -f ./job3.yaml
 ./kubectl describe job “your-job-name”
 ./kubectl logs “pod name” > myresultsactive.txt
 
