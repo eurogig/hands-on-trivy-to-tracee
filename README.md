@@ -9,23 +9,10 @@ A hands on guided lesson for DevOps Playground walking through how to use the Aq
 ## Part 0
 ### Prep the environment.
 
-#### Install docker
+#### Check docker is installed
 ```
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-sudo apt-get update
-apt-cache policy docker-ce
-sudo apt-get -y install -y docker-ce
-sudo usermod -aG docker ${USER}
+docker -v
 ```
-#### Test it
-#### First log out and then log back into your terminal to enable your user account to user the docker group.
-#### Now try...
-```
-docker run -it --rm alpine sh
-```
-
-## NOTE: To use sudo you'll need your account password assigned by DevOps Playground
 
 ## Part 1 - Trivy (https://github.com/aquasecurity/trivy)
 <img src="https://github.com/aquasecurity/trivy/blob/master/imgs/logo.png" height="150">
@@ -38,6 +25,7 @@ echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main |
 sudo apt-get update
 sudo apt-get -y install trivy
 ```
+### NOTE: You might need to run the above twice if one of the apt-get does something unexpected.
 
 ### Using Trivy
 ##### Example.
@@ -46,16 +34,46 @@ trivy -h
 ```
 
 #### Note some key paramters are -s to filter on severity and --ignore-unfixed to eliminate reporting any vulnerabilities that do not currently have fixes available
+
+### Let's play with Trivy.   As an experiment let's take the advice of a recent 2019 article about choosing the best base image for a python application.  
+https://pythonspeed.com/articles/base-image-python-docker-images/
+### It recommends NOT using alpine but instead using ubuntu:18.04 or centos:7.6.1810 or debian:10 but let's try debian:10.2-slim to reduce result.  Which is the most secure?
+
+#### First let's get a summary
 ```
-trivy postgres:9.5.20
-trivy -s CRITICAL postgres:9.5.20
-trivy -s CRITICAL --ignore-unfixed postgres:9.5.20
+trivy ubuntu:18.04 | grep Total
+```
+#### Let's look at the total list now 
+```
+trivy ubuntu:18.04 
+```
+#### Now let's try filtering on just CRITICAL vulnerabilities using the -s option total
+```
+trivy -s CRITICAL --ignore-unfixed ubuntu:18.04
+```
+### Try these steps quickly again using the centos:7.6.1810 or debian:10.2-slim in place of ubuntu:18.04.  I'll past the commands below to help
+```
+trivy centos:7.6.1810 | grep Total
+```
+```
+trivy debian:10.2-slim | grep Total
+```
+
+### Which base image would you choose at a glance?
+
+### Let's take a quick look at the latest alpine base image to compare
+```
+trivy alpine:3.11
+```
+### or perhaps a dedicate python image based on alpine made by João Ferreira Loff (https://github.com/jfloff/alpine-python)
+
+```
+trivy jfloff/alpine-python:3.8-slim
 ```
 
 ##### Notes:
 Be specific on tags!!!   
-Using the tag 9.5 can mean trivy -s CRITICAL postgres:9.5.20 or 21 or 10 or...
-Ambiguous tags (latest being the worst) means you can get misleading results based on local caching of the image.
+Using the latest tag or non-specific tags can mean trivy could produce misleading results based on local caching of the image.
 
 
 ## Part 2 Kube-hunter (remote) (https://github.com/aquasecurity/kube-hunter)
